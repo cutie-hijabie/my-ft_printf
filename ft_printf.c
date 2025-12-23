@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.c                                           :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hahel <hayat.ahel@learner.42.tech>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 06:32:18 by hahel             #+#    #+#             */
-/*   Updated: 2025/12/18 11:17:42 by hahel            ###   ########.fr       */
+/*   Updated: 2025/12/22 17:43:31 by hahel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static int parser(const char format, va_list *args);
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
@@ -25,7 +28,7 @@ int	ft_printf(const char *format, ...)
 		if(format[i] == '%')
 		{
 			i++;
-			p += parser(format[i], args);
+			p += parser(format[i], &args);
 		}
 		else
 			if (write(1, &format[i], 1))
@@ -35,28 +38,27 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (p);
 }
-static int parser(const char format, va_list args)
+
+static int parser(const char format, va_list *args)
 {
 	if (format == 'c')
-		return (handels_c(args));
+		return (handles_c(va_arg(*args, int)));
 	else if (format == 's')
-		return ();
+		return (handles_s(va_arg(*args, char*)));
 	else if (format == 'd' || format == 'i')
-		return ();
+		return (handles_di(va_arg(*args, int)));
 	else if (format == 'x')
-		return ();
+		return (handles_x(va_arg(*args,unsigned int)));
 	else if (format == 'X')
-		return ();
+		return (handels_X(va_arg(*args,unsigned int)));
 	else if (format == 'p')
-		return ();
+		return (handles_p(va_arg(*args,void *)));
 	else if (format == 'u')
-		return ();
+		return (handles_u(va_arg(*args,unsigned int)));
 	else if (format == '%')
 	{
-		if (write(1, '%', 1))
+			write(1, "%", 1);
 			return (1);
-		else
-			return (-1);
 	}
 	else
 		return (-1);

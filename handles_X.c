@@ -1,45 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handelers_cs%.c                                    :+:      :+:    :+:   */
+/*   handles_X.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hahel <hayat.ahel@learner.42.tech>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/18 08:14:52 by hahel             #+#    #+#             */
-/*   Updated: 2025/12/18 11:17:42 by hahel            ###   ########.fr       */
+/*   Created: 2025/12/20 21:05:27 by hahel             #+#    #+#             */
+/*   Updated: 2025/12/22 13:04:51 by hahel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	handle_c(va_list args)
-{
-	char	c;
+static int	count_digitsX(unsigned int n);
 
-	c = va_arg(args, int);
-	if (write(1, &c, 1) == 1)
-		return (1);
-	return (-1);
+static void	ft_putnbr_fdpX(unsigned int n, int fd);
+
+int	handels_X(unsigned int n)
+{
+	ft_putnbr_fdpX(n, 1);
+	return (count_digitsX(n));
 }
-
-int	handle_s(va_list args)
+static int	count_digitsX(unsigned int n)
 {
-	char	*s;
 	int	i;
 
-	s = va_arg(args, char*);
-	if (s == NULL)
-	{
-		write(1, "(null)", 6);
-		return (6);
-	}
 	i = 0;
-	while (s[i] != '\0')
+	if (n == 0)
+		return (1);
+	while (n != 0)
 	{
-		if (write(1, &s[i], 1) == 1)
-			i++;
-		else
-			return (-1);
+		i++;
+		n = n / 16;
 	}
 	return (i);
+}
+
+static void	ft_putnbr_fdpX(unsigned int n, int fd)
+{
+	char	c;
+	const char	*hex = "0123456789ABCDEF";
+
+	if (n >= 16)
+		ft_putnbr_fdpX(n / 16, fd);
+	c = hex[n % 16];
+	write(fd, &c, 1);
 }

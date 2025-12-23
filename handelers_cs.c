@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   handelers_cs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hahel <hayat.ahel@learner.42.tech>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/18 06:21:14 by hahel             #+#    #+#             */
-/*   Updated: 2025/12/22 15:25:43 by hahel            ###   ########.fr       */
+/*   Created: 2025/12/18 08:14:52 by hahel             #+#    #+#             */
+/*   Updated: 2025/12/22 13:09:16 by hahel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <stdarg.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdint.h>
+int	handles_c(int c)
+{
+	write(1, &c, 1);
+	return (1);
+}
 
-int	ft_printf(const char *format, ...);
-int	handles_p(void *n);
-int	handles_di(int n);
-int	handles_c(int c);
-int	handles_s(char *s);
-int	handles_x(unsigned int n);
-int	handels_X(unsigned int n);
-int	handles_u(unsigned int n);
-#endif
+int	handles_s(char *s)
+{
+	int	i;
+	if (s == NULL)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write(1, &s[i], 1);
+			i++;
+	}
+	return (i);
+}
